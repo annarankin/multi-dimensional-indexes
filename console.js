@@ -1,6 +1,6 @@
-const ColorSet = require('./conversion-scripts/color-set')
-const ConvertToRgb = require('./conversion-scripts/convert-to-rgb')
-const ConvertToHsl = require('./conversion-scripts/convert-to-hsl')
+const ColorSet = require('./js/conversion-scripts/color-set')
+const ConvertToRgb = require('./js/conversion-scripts/convert-to-rgb')
+const ConvertToHsl = require('./js/conversion-scripts/convert-to-hsl')
 const FILE_URL = 'color-data/meodai-colors.csv'
 
 const colors = new ColorSet(FILE_URL)

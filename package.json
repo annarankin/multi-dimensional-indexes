@@ -2,10 +2,19 @@
   "name": "multi-dimensional-indexes",
   "version": "1.0.0",
   "main": "index.js",
+  "scripts": {
+    "migrate": "node-pg-migrate"
+  },
+  "engines": {
+    "node": ">=8.5"
+  },
   "license": "MIT",
   "dependencies": {
     "csv-parse": "^3.1.2",
+    "dotenv": "^6.0.0",
     "hex-rgb": "^3.0.0",
-    "hex-to-hsl": "^1.0.2"
+    "hex-to-hsl": "^1.0.2",
+    "node-pg-migrate": "^3.11.0",
+    "pg": "^7.4.3"
   }
 }

@@ -6,7 +6,13 @@ class ConvertToRgb {
   }
 
   results() {
-    return this.csvData.slice(1).map(row => [row[0], hexRgb(row[1].slice(1), { format: 'array' }).slice(0,3) ])
+    return this.csvData.slice(1).map(row => [
+      row[0],
+      hexRgb(
+        row[1].slice(1),
+        { format: 'array' }
+      ).slice(0,3)
+    ])
   }
 }
 
