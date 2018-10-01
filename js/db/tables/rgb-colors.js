@@ -1,53 +1,36 @@
-const { Client } = require('pg')
+const tinyColor = require('tinycolor2')
 
-class RgbColorTable {
+const AbstractTable = require('./abstract-table')
+
+class RgbColorTable extends AbstractTable {
   constructor() {
-    this.client = new Client()
+    super()
+    this.colNames = 'r, g, b'
+    this.tablename = 'rgb-color-values'
   }
 
-  renderQuery(values) {
-    const params = values.reduce((memo, row) => {
-      const [name, [r, g, b]] = row
-      return [...memo, name, r, g, b]
-    }, [])
+  async fetchSimilar(hexCode) {
+    const { r, g, b } = tinyColor(hexCode).toRgb()
+    await this.client.connect()
 
-    const valuePlaceholders = values.map((_, i) => {
-      const initialNumber = (i * 4) + 1
-      return `($${initialNumber}, $${initialNumber + 1}, $${initialNumber + 2}, $${initialNumber + 3})`
-    })
+    const res = await this.client.query(`
+      SELECT
+        name,
+        ${this.colNames},
+        ST_Distance(
+          ST_GeomFromText('POINT(${r} ${g} ${b})'),
+          geo
+        ) as distance
+      FROM rgb_geom
+      WHERE ST_Distance(
+        ST_GeomFromText('POINT(${r} ${g} ${b})'),
+        geo
+      ) < 10
+      ORDER BY distance;
+    `)
 
-    return {
-      text: `
-        INSERT INTO "rgb-color-values" (name, r, g, b) VALUES ${valuePlaceholders.join(', ')};
-      `,
-      params
-    }
-  }
-
-  async insertInBatches(values) {
-    const batchSize = 3000
-
-    while (values.length > 1) {
-      console.log('Records remaining:', values.length)
-      const batch = values.splice(0, batchSize)
-      const { text, params } = this.renderQuery(batch)
-      const res = await this.client.query(text, params)
-      console.log(res)
-    }
-
-    return 'All done!'
-  }
-
-  async insert(values) {
-    try {
-      await this.client.connect()
-
-      await this.insertInBatches(values)
-
-      await this.client.end()
-    } catch (error) {
-      console.log('Error!', error)
-    }
+    await this.client.end()
+    return res
   }
 }
 

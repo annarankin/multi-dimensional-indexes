@@ -12,9 +12,12 @@
   "dependencies": {
     "csv-parse": "^3.1.2",
     "dotenv": "^6.0.0",
+    "express": "^4.16.3",
     "hex-rgb": "^3.0.0",
     "hex-to-hsl": "^1.0.2",
     "node-pg-migrate": "^3.11.0",
-    "pg": "^7.4.3"
+    "pg": "^7.4.3",
+    "rgb-hex": "^2.1.0",
+    "tinycolor2": "^1.4.1"
   }
 }

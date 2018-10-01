@@ -1,12 +1,12 @@
 const hexHsl = require('hex-to-hsl')
 
 class ConvertToHsl {
-  constructor(csvData) {
-    this.csvData = csvData
+  constructor(data) {
+    this.data = data
   }
 
   results() {
-    return this.csvData.slice(1).map(row => [row[0], hexHsl(row[1])])
+    return this.data.slice(1).map(row => [row[0], hexHsl(row[1])])
   }
 }
 
