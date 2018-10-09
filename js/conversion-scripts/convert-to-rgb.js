@@ -1,4 +1,4 @@
-const hexRgb = require('hex-rgb')
+const tinyColor = require('tinycolor2')
 
 class ConvertToRgb {
   constructor(csvData) {
@@ -6,13 +6,15 @@ class ConvertToRgb {
   }
 
   results() {
-    return this.csvData.slice(1).map(row => [
-      row[0],
-      hexRgb(
-        row[1].slice(1),
-        { format: 'array' }
-      ).slice(0,3)
-    ])
+    return this.csvData.slice(1).map(row => {
+      const name = row[0]
+      const hex = row[1]
+      const { r, g, b } = tinyColor(hex).toRgb()
+      return [
+        name,
+        [ r, g, b ],
+      ]
+    })
   }
 }
 

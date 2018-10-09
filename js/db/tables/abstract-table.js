@@ -49,6 +49,31 @@ class AbstractTable {
       console.log('Error!', error)
     }
   }
+
+  async fetchSimilar(hexCode, distance = 10) {
+    await this.client.connect()
+    const [x, y, z] = this.coordinates(hexCode)
+
+    const res = await this.client.query(`
+      SELECT
+        name,
+        ${this.colNames},
+        ST_3DDistance(
+          ST_GeomFromText('POINT(${x} ${y} ${z})'),
+          geo
+        ) as distance
+      FROM ${this.geometryTable}
+      WHERE ST_3DDistance(
+        ST_GeomFromText('POINT(${x} ${y} ${z})'),
+        geo
+      ) < ${distance}
+      ORDER BY distance
+      LIMIT 20;
+    `)
+
+    await this.client.end()
+    return res
+  }
 }
 
 module.exports = AbstractTable

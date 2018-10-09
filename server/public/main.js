@@ -12,7 +12,7 @@ window.onload = () => {
 }
 
 function loadColors(hex) {
-  fetch(`/search/${hex.slice(1)}`)
+  fetch(`/search/${hex.slice(1)}${location.search}`)
     .then(res => res.json() )
     .then(renderResults)
 }
