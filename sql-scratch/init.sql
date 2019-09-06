@@ -1,3 +1,18 @@
+-- CREATE VIEW upcoming_appointments AS
+--   SELECT DISTINCT ON
+--     users.id AS user_id,
+--     users.first_name || ' ' || users.last_name AS user_name,
+--     pets.id AS pet_id,
+--     pets.name AS pet_name,
+--     appointments.date AS appointment_date
+--   FROM users
+--   INNER JOIN pets
+--     ON user_id = users.id
+--   LEFT JOIN appointments
+--     ON pets.id = pet_id
+--   WHERE appointments.date >= NOW() - INTERVAL '1 day'
+--   ORDER BY appointments.date ASC;
+
 -- -- CREATE VIEW color_points AS
 -- SELECT
 --   *,

@@ -3,7 +3,51 @@
 DROP TABLE IF EXISTS colors;
 -- DROP TABLE IF EXISTS rgb_values;
 
-CREATE TABLE colors (
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  first_name VARCHAR(255),
+  last_name VARCHAR(255)
+);
+
+CREATE TABLE pets (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255),
+  user_id INTEGER REFERENCES users(id)
+);
+
+CREATE TABLE appointments (
+  id SERIAL PRIMARY KEY,
+  date TIMESTAMP,
+  pet_id INTEGER REFERENCES pets(id)
+);
+
+INSERT INTO users (first_name, last_name) VALUES
+('Betty', 'Crocker'),
+('Danny', 'Harvest'),
+('Melissa', 'Smith'),
+('Gwen', 'Liu');
+
+INSERT INTO pets (name, user_id) VALUES
+('Flannery', 1),
+('Porkchop', 2),
+('Gravy', 2),
+('Magnus', 3),
+('Huey', 4),
+('Duey', 4),
+('Louie', 4);
+
+INSERT INTO appointments (date, pet_id) VALUES
+('2018-10-08 13:00:00', 1),
+('2018-11-22 13:00:00', 1),
+('2018-11-25 12:30:00', 1),
+('2018-11-22 16:30:00', 2),
+('2018-12-01 09:00:00', 3),
+('2018-12-15 10:45:00', 5),
+('2018-12-15 10:45:00', 6),
+('2018-12-15 10:45:00', 7);
+
+
+CREATE TABLE rgb_colors (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255),
   r INTEGER,
@@ -18,7 +62,7 @@ CREATE TABLE colors (
 --   b INTEGER
 -- );
 
-INSERT INTO colors (name, r, g, b) VALUES
+INSERT INTO rbg_colors (name, r, g, b) VALUES
 ('Air Force Blue [Raf]',93,138,168),
 ('Air Force Blue [Usaf]',0,48,143),
 ('Air Superiority Blue',114,160,193),
